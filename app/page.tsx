@@ -1,5 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { MemberTable } from "./components/member-table/member-table";
 
 export default function Home() {
   return (
@@ -10,6 +11,9 @@ export default function Home() {
           추가
         </Button>
       </header>
+      <main>
+        <MemberTable rows={[]} />
+      </main>
     </div>
   );
 }
