@@ -9,10 +9,7 @@ export class LocalStorageService {
     try {
       return item ? JSON.parse(item) : null;
     } catch (error) {
-      console.error(
-        "로컬 스토리지에서 아이템을 가져오는데 실패했습니다.",
-        error
-      );
+      console.error("로컬 스토리지에서 아이템을 가져오는데 실패했습니다.", error);
       return null;
     }
   }
@@ -29,10 +26,7 @@ export class LocalStorageService {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error(
-        "로컬 스토리지에서 아이템을 제거하는데 실패했습니다.",
-        error
-      );
+      console.error("로컬 스토리지에서 아이템을 제거하는데 실패했습니다.", error);
     }
   }
 }

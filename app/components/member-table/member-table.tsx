@@ -1,4 +1,6 @@
+import { MoreOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
+
 import { Row } from "../shared/table/entities/row.entity";
 import { Table } from "../shared/table/table";
 
@@ -15,7 +17,7 @@ export function MemberTable({ rows = [] }: MemberTableProps) {
       <Table.Header>
         <Table.Row>
           {/* map */}
-          <Table.Head className="p-2 w-0" hiddenFilter>
+          <Table.Head className="w-0 p-2" hiddenFilter>
             <Checkbox />
           </Table.Head>
           <Table.Head>이름</Table.Head>
@@ -32,7 +34,7 @@ export function MemberTable({ rows = [] }: MemberTableProps) {
       <Table.Body>
         <Table.Row>
           {/* map */}
-          <Table.Cell className="p-2 w-0">
+          <Table.Cell className="w-0 p-2">
             <Checkbox />
           </Table.Cell>
           <Table.Cell>John Doe</Table.Cell>
@@ -44,7 +46,7 @@ export function MemberTable({ rows = [] }: MemberTableProps) {
           <Table.Cell className="p-2">
             <button type="button">
               <MoreOutlined
-                className="w-4 h-4"
+                className="h-4 w-4"
                 style={{
                   color: "#000000A6",
                 }}

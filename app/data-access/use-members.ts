@@ -1,9 +1,4 @@
-import {
-  CreateMemberDto,
-  DeleteMemberDto,
-  GetListMembersDto,
-  UpdateMemberDto,
-} from "./member.dto";
+import { CreateMemberDto, DeleteMemberDto, GetListMembersDto, UpdateMemberDto } from "./member.dto";
 
 export function useMember() {
   const createMember = (member: CreateMemberDto) => {
