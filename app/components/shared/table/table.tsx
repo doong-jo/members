@@ -29,7 +29,7 @@ Table.Head = function TableHead({
 }) {
   return (
     <th className={cn("border-[#0000000F] bg-[#FAFAFA] py-2", className)}>
-      <div className="flex flex-row items-center justify-between border-[#0000000F] [th:not(:first-child)_&]:border-r">
+      <div className="flex flex-row items-center justify-between border-[#0000000F] px-2 [th:not(:first-child)_&]:border-r">
         <span className="text-sm font-semibold text-[#000000E0]">{children}</span>
         {!hiddenFilter && (
           <FilterFilled
@@ -74,7 +74,7 @@ Table.Cell = function TableCell({
   return (
     <td
       className={cn(
-        "border-[#0000000F] px-2 py-[13px] text-sm text-[#000000E0] first:[border-width:0px_1px_1px_1px]",
+        "border-b border-[#0000000F] px-2 py-[13px] text-sm text-[#000000E0] first:[border-width:0px_1px_1px_1px]",
         className,
       )}
     >

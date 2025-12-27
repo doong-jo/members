@@ -17,7 +17,7 @@ export function MemberTable({ rows = [] }: MemberTableProps) {
       <Table.Header>
         <Table.Row>
           {/* map */}
-          <Table.Head className="w-0 p-2" hiddenFilter>
+          <Table.Head className="w-0 [&>div]:px-2" hiddenFilter>
             <Checkbox />
           </Table.Head>
           <Table.Head>이름</Table.Head>
@@ -26,7 +26,7 @@ export function MemberTable({ rows = [] }: MemberTableProps) {
           <Table.Head>가입일</Table.Head>
           <Table.Head>직업</Table.Head>
           <Table.Head>이메일 수신 동의</Table.Head>
-          <Table.Head className="w-auto" hiddenFilter>
+          <Table.Head className="w-0" hiddenFilter>
             {/* 작업 */}
           </Table.Head>
         </Table.Row>
@@ -34,11 +34,11 @@ export function MemberTable({ rows = [] }: MemberTableProps) {
       <Table.Body>
         <Table.Row>
           {/* map */}
-          <Table.Cell className="w-0 p-2">
+          <Table.Cell>
             <Checkbox />
           </Table.Cell>
           <Table.Cell>John Doe</Table.Cell>
-          <Table.Cell>서울 강남구</Table.Cell>
+          <Table.Cell>서울 강남구 </Table.Cell>
           <Table.Cell>메모</Table.Cell>
           <Table.Cell>2025-01-01</Table.Cell>
           <Table.Cell>개발자</Table.Cell>
