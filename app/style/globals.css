@@ -4,6 +4,16 @@
   --background: #ffffff;
 }
 
+button,
+a {
+  cursor: pointer;
+}
+
+button[disabled],
+a[disabled] {
+  cursor: not-allowed;
+}
+
 body {
   color: black;
   background: var(--background);
