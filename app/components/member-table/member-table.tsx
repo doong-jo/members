@@ -1,60 +1,92 @@
+"use client";
+
+import { useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
 
 import { Row } from "../shared/table/entities/row.entity";
-import { Table } from "../shared/table/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../shared/table/table";
+import { CreateMemberModal } from "./modals/create-member-modal";
+import { EditMemberModal } from "./modals/edit-member-modal";
 
 interface MemberTableProps {
   rows: Row[];
+  isCreateMemberModalOpen: boolean;
+  onCreateMemberModalOpen: (open: boolean) => void;
 }
 
 /**
  * 회원 테이블 컴포넌트
  */
-export function MemberTable({ rows = [] }: MemberTableProps) {
+export function MemberTable({
+  rows = [],
+  isCreateMemberModalOpen,
+  onCreateMemberModalOpen,
+}: MemberTableProps) {
+  const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState<boolean>(false);
+
   return (
-    <Table>
-      <Table.Header>
-        <Table.Row>
-          {/* map */}
-          <Table.Head className="w-0 [&>div]:px-2" hiddenFilter>
-            <Checkbox />
-          </Table.Head>
-          <Table.Head>이름</Table.Head>
-          <Table.Head>주소</Table.Head>
-          <Table.Head>메모</Table.Head>
-          <Table.Head>가입일</Table.Head>
-          <Table.Head>직업</Table.Head>
-          <Table.Head>이메일 수신 동의</Table.Head>
-          <Table.Head className="w-0" hiddenFilter>
-            {/* 작업 */}
-          </Table.Head>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        <Table.Row>
-          {/* map */}
-          <Table.Cell>
-            <Checkbox />
-          </Table.Cell>
-          <Table.Cell>John Doe</Table.Cell>
-          <Table.Cell>서울 강남구 </Table.Cell>
-          <Table.Cell>메모</Table.Cell>
-          <Table.Cell>2025-01-01</Table.Cell>
-          <Table.Cell>개발자</Table.Cell>
-          <Table.Cell>동의</Table.Cell>
-          <Table.Cell className="p-2">
-            <button type="button">
-              <MoreOutlined
-                className="h-4 w-4"
-                style={{
-                  color: "#000000A6",
-                }}
-              ></MoreOutlined>
-            </button>
-          </Table.Cell>
-        </Table.Row>
-      </Table.Body>
-    </Table>
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {/* map */}
+            <TableHead className="w-0 [&>div]:px-2" hiddenFilter>
+              <Checkbox />
+            </TableHead>
+            <TableHead>이름</TableHead>
+            <TableHead>주소</TableHead>
+            <TableHead>메모</TableHead>
+            <TableHead>가입일</TableHead>
+            <TableHead>직업</TableHead>
+            <TableHead>이메일 수신 동의</TableHead>
+            <TableHead className="w-0" hiddenFilter>
+              {/* 작업 */}
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            {/* map */}
+            <TableCell>
+              <Checkbox />
+            </TableCell>
+            <TableCell>John Doe</TableCell>
+            <TableCell>서울 강남구 </TableCell>
+            <TableCell>메모</TableCell>
+            <TableCell>2025-01-01</TableCell>
+            <TableCell>개발자</TableCell>
+            <TableCell>동의</TableCell>
+            <TableCell className="p-2">
+              <button type="button">
+                <MoreOutlined
+                  className="h-4 w-4"
+                  style={{
+                    color: "#000000A6",
+                  }}
+                ></MoreOutlined>
+              </button>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      <CreateMemberModal
+        open={isCreateMemberModalOpen}
+        onOpenChange={(open) => onCreateMemberModalOpen(open)}
+        row={rows[0]}
+      />
+      <EditMemberModal
+        open={isEditMemberModalOpen}
+        onOpenChange={(open) => setIsEditMemberModalOpen(open)}
+        row={rows[0]}
+      />
+    </>
   );
 }
