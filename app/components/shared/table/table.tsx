@@ -5,10 +5,10 @@ import { cn } from "@/app/style/tailwind-util";
 /**
  * 테이블 컴포넌트
  */
-export function Table({ children, className }: { children: React.ReactNode; className?: string }) {
+function Table({ children, className }: { children: React.ReactNode; className?: string }) {
   return <table className={cn("w-full bg-white", className)}>{children}</table>;
 }
-Table.Header = function TableHeader({
+const TableHeader = function TableHeader({
   children,
   className,
 }: {
@@ -18,7 +18,7 @@ Table.Header = function TableHeader({
   return <thead className={cn("w-full", className)}>{children}</thead>;
 };
 
-Table.Head = function TableHead({
+const TableHead = function TableHead({
   children,
   className,
   hiddenFilter,
@@ -44,7 +44,7 @@ Table.Head = function TableHead({
   );
 };
 
-Table.Body = function TableBody({
+const TableBody = function TableBody({
   children,
   className,
 }: {
@@ -54,7 +54,7 @@ Table.Body = function TableBody({
   return <tbody className={cn("w-full", className)}>{children}</tbody>;
 };
 
-Table.Row = function TableRow({
+const TableRow = function TableRow({
   children,
   className,
 }: {
@@ -64,7 +64,7 @@ Table.Row = function TableRow({
   return <tr className={cn("w-full", className)}>{children}</tr>;
 };
 
-Table.Cell = function TableCell({
+const TableCell = function TableCell({
   children,
   className,
 }: {
@@ -82,3 +82,5 @@ Table.Cell = function TableCell({
     </td>
   );
 };
+
+export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow };
