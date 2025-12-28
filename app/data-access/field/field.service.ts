@@ -1,12 +1,15 @@
-import { Field } from "./field.entity";
+import { StorageService } from "../storage/storage.service";
+import { DEFAULT_FIELDS, Field } from "./field.entity";
 
 export class FieldService {
-  private fields: Map<string, Field> = new Map();
-
-  constructor() {}
+  constructor(private readonly storageService: StorageService) {
+    // default fields 저장
+    DEFAULT_FIELDS.forEach((field) => {
+      this.storageService.createOne("fields", field);
+    });
+  }
 
   getAllFields(): Field[] {
-    // TODO: storage에서 목록 조회
-    return Array.from(this.fields.values()).sort((a, b) => a.order - b.order);
+    return this.storageService.findAll("fields");
   }
 }

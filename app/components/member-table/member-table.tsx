@@ -4,6 +4,8 @@ import { useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
 
+import { useSuspenseFields } from "@/app/data-access/field/use-fields";
+
 import { Row } from "../shared/table/entities/row.entity";
 import {
   Table,
@@ -32,6 +34,8 @@ export function MemberTable({
 }: MemberTableProps) {
   const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState<boolean>(false);
 
+  const { data: fields } = useSuspenseFields();
+
   return (
     <>
       <Table>
@@ -41,15 +45,11 @@ export function MemberTable({
             <TableHead className="w-0 [&>div]:px-2" hiddenFilter>
               <Checkbox />
             </TableHead>
-            <TableHead>이름</TableHead>
-            <TableHead>주소</TableHead>
-            <TableHead>메모</TableHead>
-            <TableHead>가입일</TableHead>
-            <TableHead>직업</TableHead>
-            <TableHead>이메일 수신 동의</TableHead>
-            <TableHead className="w-0" hiddenFilter>
-              {/* 작업 */}
-            </TableHead>
+            {fields.map((field) => (
+              <TableHead key={field.id}>{field.label}</TableHead>
+            ))}
+            {/* 셀의 작업과 칸 맞추기 위해 추가 */}
+            <TableHead className="w-0" hiddenFilter />
           </TableRow>
         </TableHeader>
         <TableBody>
