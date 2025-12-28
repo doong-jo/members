@@ -1,5 +1,6 @@
-import { Field } from "./field.entity";
+import { Field } from "@/app/data-access/field/field.entity";
+import { MemberDataValue } from "@/app/data-access/member/member.entity";
 
 export type Row = Field & {
-  value: string | number | boolean | Date | null;
+  value: MemberDataValue;
 };
