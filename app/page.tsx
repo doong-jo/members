@@ -13,7 +13,6 @@ export default function Home() {
       <Header onAddMember={() => setIsCreateMemberModalOpen(true)} />
       <main>
         <MemberTable
-          rows={[]}
           isCreateMemberModalOpen={isCreateMemberModalOpen}
           onCreateMemberModalOpen={setIsCreateMemberModalOpen}
         />

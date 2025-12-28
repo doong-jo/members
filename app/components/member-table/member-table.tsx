@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Checkbox } from "antd";
 
 import {
@@ -15,6 +16,7 @@ import {
 import { renderMemberValue } from "./member-table.helper";
 import { CreateMemberModal } from "./modals/create-member-modal";
 import { EditMemberModal } from "./modals/edit-member-modal";
+import { RecordEdit } from "./record-edit";
 import { useSuspenseMemberTable } from "./use-member-table";
 
 interface MemberTableProps {
@@ -51,28 +53,38 @@ export function MemberTable({
         </TableHeader>
         <TableBody>
           {membersByField.map((memberByField) => (
-            <>
-              <TableRow>
-                <TableCell>
-                  <Checkbox />
+            <TableRow key={memberByField["id"] as string}>
+              <TableCell>
+                <Checkbox />
+              </TableCell>
+              {fields.map((field) => (
+                <TableCell key={field.id} renderer={renderMemberValue}>
+                  {memberByField[field.key]}
                 </TableCell>
-                {fields.map((field) => (
-                  <TableCell key={field.id} renderer={renderMemberValue}>
-                    {memberByField[field.key]}
-                  </TableCell>
-                ))}
-                <TableCell className="p-2">
-                  <button type="button">
+              ))}
+              <TableCell className="p-2">
+                <Popover>
+                  <PopoverTrigger>
                     <MoreOutlined
                       className="h-4 w-4"
                       style={{
                         color: "#000000A6",
                       }}
                     ></MoreOutlined>
-                  </button>
-                </TableCell>
-              </TableRow>
-            </>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <RecordEdit
+                      onEditClick={() => {
+                        setIsEditMemberModalOpen(true);
+                      }}
+                      onDeleteClick={() => {
+                        // TODO: 삭제 진행 로직 추가
+                      }}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </TableCell>
+            </TableRow>
           ))}
         </TableBody>
       </Table>

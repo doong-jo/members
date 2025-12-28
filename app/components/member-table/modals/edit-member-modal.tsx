@@ -1,10 +1,8 @@
 import { Modal, ModalContent, ModalHeader, ModalTitle } from "../../shared/modal";
-import { Row } from "../../shared/table/entities/row.entity";
 
 interface EditMemberModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  row: Row;
 }
 
 export function EditMemberModal({ open, onOpenChange }: EditMemberModalProps) {
