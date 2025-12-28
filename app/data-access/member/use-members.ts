@@ -1,6 +1,12 @@
-import { useMutation, useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 
 import { MemberController } from "./member.controller";
+import { CreateMemberDto, UpdateMemberDto } from "./member.dto";
 import { Member } from "./member.entity";
 
 /**
@@ -29,16 +35,29 @@ export const useSuspenseMemberById = (
 };
 
 /**
+ * 회원 생성
+ */
+export const useCreateMember = (
+  queryOptions?: UseMutationOptions<Member, Error, CreateMemberDto>,
+) => {
+  return useMutation<Member, Error, CreateMemberDto>({
+    mutationKey: ["createMember"],
+    mutationFn: async (member: CreateMemberDto) =>
+      MemberController.getInstance().createMember(member),
+    ...queryOptions,
+  });
+};
+
+/**
  * 회원 업데이트
  */
-export const useUpdateMemberById = (
-  id: string,
-  member: Member,
-  queryOptions?: UseSuspenseQueryOptions<Member, Error>,
+export const useUpdateMember = (
+  queryOptions?: UseMutationOptions<Member, Error, UpdateMemberDto>,
 ) => {
-  return useMutation<Member, Error>({
-    mutationKey: ["updateMemberById", id],
-    mutationFn: async () => MemberController.getInstance().updateMember(member),
+  return useMutation<Member, Error, UpdateMemberDto>({
+    mutationKey: ["updateMember"],
+    mutationFn: async (member: UpdateMemberDto) =>
+      MemberController.getInstance().updateMember(member),
     ...queryOptions,
   });
 };
@@ -46,13 +65,10 @@ export const useUpdateMemberById = (
 /**
  * 회원 삭제
  */
-export const useDeleteMemberById = (
-  id: string,
-  queryOptions?: UseSuspenseQueryOptions<void, Error>,
-) => {
-  return useMutation<void, Error>({
-    mutationKey: ["deleteMemberById", id],
-    mutationFn: async () => MemberController.getInstance().deleteMemberById(id),
+export const useDeleteMemberById = (queryOptions?: UseMutationOptions<void, Error, string>) => {
+  return useMutation<void, Error, string>({
+    mutationKey: ["deleteMemberById"],
+    mutationFn: async (id: string) => MemberController.getInstance().deleteMemberById(id),
     ...queryOptions,
   });
 };
