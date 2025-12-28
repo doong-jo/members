@@ -1,6 +1,8 @@
 import { Checkbox } from "antd";
 import { format } from "date-fns";
 
+import { MemberDataValue } from "@/app/data-access/member/member.entity";
+
 /**
  * - boolean 값이면 <Checkbox /> 반환
  * - date 값이면 YYYY-MM-DD 형식으로 반환
@@ -14,4 +16,14 @@ export function renderMemberValue(value: React.ReactNode | Date) {
     return format(value, "yyyy-MM-dd");
   }
   return value?.toString();
+}
+
+export function serializeValue(value: MemberDataValue): string {
+  if (value instanceof Date) {
+    return format(value, "yyyy-MM-dd");
+  }
+  if (value === null || value === undefined) {
+    return "";
+  }
+  return value.toString();
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
 
@@ -13,7 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "../shared/table/table";
-import { Filter } from "./filter";
+import { Filter } from "./filter/filter";
+import { filterMembers, getUniqueValuesByField } from "./filter/filter.helper";
 import { renderMemberValue } from "./member-table.helper";
 import { CreateMemberModal } from "./modals/create-member-modal";
 import { EditMemberModal } from "./modals/edit-member-modal";
@@ -36,6 +37,25 @@ export function MemberTable({
 
   const { fields, membersByField } = useSuspenseMemberTable();
 
+  // 필터 상태
+  const [filters, setFilters] = useState<Record<string, Set<string>>>({});
+
+  // 필드별 중복 제거한 값
+  const uniqueValuesByField = useMemo(
+    () => getUniqueValuesByField(fields, membersByField),
+    [fields, membersByField],
+  );
+
+  // 필터링
+  const filteredMembers = useMemo(
+    () => filterMembers(membersByField, filters),
+    [filters, membersByField],
+  );
+
+  const handleFilterChange = (key: string, selectedKeys: Set<string>) => {
+    setFilters((prev) => ({ ...prev, [key]: selectedKeys }));
+  };
+
   return (
     <>
       <Table>
@@ -52,7 +72,11 @@ export function MemberTable({
                 </PopoverTrigger>
                 <PopoverContent>
                   <Filter
-                    values={membersByField.map((memberByField) => memberByField[field.key])}
+                    uniqueValues={uniqueValuesByField[field.key]}
+                    selectedKeys={filters[field.key] ?? new Set()}
+                    onChange={(selectedKeys) => {
+                      handleFilterChange(field.key, selectedKeys);
+                    }}
                   />
                 </PopoverContent>
               </Popover>
@@ -62,7 +86,7 @@ export function MemberTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {membersByField.map((memberByField) => (
+          {filteredMembers.map((memberByField) => (
             <TableRow key={memberByField["id"] as string}>
               <TableCell>
                 <Checkbox />
