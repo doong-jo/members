@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
 
+import { MemberDataValue } from "@/app/data-access/member/member.entity";
+
 import { Popover, PopoverContent, PopoverTrigger } from "../shared/popover";
 import {
   Table,
@@ -33,7 +35,13 @@ export function MemberTable({
   isCreateMemberModalOpen,
   onCreateMemberModalOpen,
 }: MemberTableProps) {
-  const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState<boolean>(false);
+  const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState<{
+    open: boolean;
+    member: Record<string, MemberDataValue>;
+  }>({
+    open: false,
+    member: {},
+  });
 
   const { fields, membersByField } = useSuspenseMemberTable();
 
@@ -47,10 +55,7 @@ export function MemberTable({
   );
 
   // 필터링
-  const filteredMembers = useMemo(
-    () => filterMembers(membersByField, filters),
-    [filters, membersByField],
-  );
+  const filteredMembers = filterMembers(membersByField, filters);
 
   const handleFilterChange = (key: string, selectedKeys: Set<string>) => {
     setFilters((prev) => ({ ...prev, [key]: selectedKeys }));
@@ -61,7 +66,6 @@ export function MemberTable({
       <Table>
         <TableHeader>
           <TableRow>
-            {/* map */}
             <TableHead className="w-0 [&>div]:px-2" hiddenFilter>
               <Checkbox />
             </TableHead>
@@ -109,7 +113,7 @@ export function MemberTable({
                   <PopoverContent>
                     <RecordEdit
                       onEditClick={() => {
-                        setIsEditMemberModalOpen(true);
+                        setIsEditMemberModalOpen({ open: true, member: memberByField });
                       }}
                       onDeleteClick={() => {
                         // TODO: 삭제 진행 로직 추가
@@ -125,10 +129,13 @@ export function MemberTable({
       <CreateMemberModal
         open={isCreateMemberModalOpen}
         onOpenChange={(open) => onCreateMemberModalOpen(open)}
+        fields={fields}
       />
       <EditMemberModal
-        open={isEditMemberModalOpen}
-        onOpenChange={(open) => setIsEditMemberModalOpen(open)}
+        open={isEditMemberModalOpen.open}
+        onOpenChange={(open, member) => setIsEditMemberModalOpen({ open, member: member ?? {} })}
+        fields={fields}
+        member={isEditMemberModalOpen?.member ?? {}}
       />
     </>
   );
