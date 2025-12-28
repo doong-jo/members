@@ -41,7 +41,7 @@ const ModalContent = React.forwardRef<
     <ModalPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed top-[50%] left-[50%] z-50 grid w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] rounded-[10px] bg-white [box-shadow:0px_6px_16px_0px_#00000014]",
+        "fixed top-[50%] left-[50%] z-50 grid w-full max-w-[520px] translate-x-[-50%] translate-y-[-50%] rounded-[10px] bg-white [box-shadow:0px_6px_16px_0px_#00000014]",
         className,
       )}
       {...props}
