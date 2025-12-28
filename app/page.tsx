@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { ClientOnly } from "./client-only";
 import { Header } from "./components/header";
 import { MemberTable } from "./components/member-table/member-table";
 
@@ -11,12 +12,14 @@ export default function Home() {
   return (
     <div>
       <Header onAddMember={() => setIsCreateMemberModalOpen(true)} />
-      <main>
-        <MemberTable
-          isCreateMemberModalOpen={isCreateMemberModalOpen}
-          onCreateMemberModalOpen={setIsCreateMemberModalOpen}
-        />
-      </main>
+      <ClientOnly>
+        <main>
+          <MemberTable
+            isCreateMemberModalOpen={isCreateMemberModalOpen}
+            onCreateMemberModalOpen={setIsCreateMemberModalOpen}
+          />
+        </main>
+      </ClientOnly>
     </div>
   );
 }
