@@ -1,5 +1,5 @@
 import { StorageService } from "../storage/storage.service";
-import { CreateMemberDto } from "./member.dto";
+import { CreateMemberDto, UpdateMemberDto } from "./member.dto";
 import { DEFAULT_MEMBERS, Member } from "./member.entity";
 
 /**
@@ -7,9 +7,12 @@ import { DEFAULT_MEMBERS, Member } from "./member.entity";
  */
 export class MemberService {
   constructor(private readonly storageService: StorageService) {
-    DEFAULT_MEMBERS.forEach((member) => {
-      this.storageService.createOne("members", member);
-    });
+    const members = this.getAllMembers();
+    if (members.length === 0) {
+      DEFAULT_MEMBERS.forEach((member) => {
+        this.storageService.createOne("members", member);
+      });
+    }
   }
 
   createMember(member: CreateMemberDto): Member {
@@ -29,10 +32,13 @@ export class MemberService {
     return this.storageService.findOne("members", id);
   }
 
-  updateMember(member: Member): Member {
-    this.storageService.updateOne("members", member.id, member);
+  updateMember(id: string, member: UpdateMemberDto): Member {
+    const updatedMember = new Member();
+    Object.assign(updatedMember, member);
 
-    return member;
+    this.storageService.updateOne("members", id, updatedMember);
+
+    return updatedMember;
   }
 
   deleteMemberById(id: string): void {
