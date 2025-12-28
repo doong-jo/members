@@ -1,32 +1,52 @@
+import { BaseEntity } from "../../base/base.entity";
+import { BaseStorage } from "./base-storage.types";
+
 /**
  * 로컬 스토리지 저장소 구현
  */
-export class LocalStorageService {
+export class LocalStorageService implements BaseStorage<BaseEntity> {
   constructor() {}
 
-  getItem(key: string): string | null {
-    const item = localStorage.getItem(key);
-    try {
-      return item ? JSON.parse(item) : null;
-    } catch (error) {
-      console.error("로컬 스토리지에서 아이템을 가져오는데 실패했습니다.", error);
-      return null;
-    }
+  createOne(entityName: string, data: BaseEntity): BaseEntity {
+    localStorage.setItem(entityName, JSON.stringify(data));
+
+    return data;
   }
 
-  setItem(key: string, value: unknown): void {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.error("로컬 스토리지에 아이템을 설정하는데 실패했습니다.", error);
-    }
+  findAll(entityName: string): BaseEntity[] {
+    const entities = localStorage.getItem(entityName);
+
+    return entities ? JSON.parse(entities) : [];
   }
 
-  removeItem(key: string): void {
-    try {
-      localStorage.removeItem(key);
-    } catch (error) {
-      console.error("로컬 스토리지에서 아이템을 제거하는데 실패했습니다.", error);
-    }
+  findOne(entityName: string, id: string): BaseEntity | null {
+    const entities = this.findAll(entityName);
+
+    return entities.find((item: BaseEntity) => item.id === id) || null;
+  }
+
+  updateOne(entityName: string, id: string, data: Partial<BaseEntity>): BaseEntity | null {
+    const entities = this.findAll(entityName);
+    const entity = entities.find((item: BaseEntity) => item.id === id);
+
+    if (!entity) return null;
+
+    Object.assign(entity, data);
+
+    localStorage.setItem(entityName, JSON.stringify(entities));
+
+    return entity;
+  }
+
+  deleteOne(entityName: string, id: string): boolean {
+    const entities = this.findAll(entityName);
+    const index = entities.findIndex((item: BaseEntity) => item.id === id);
+
+    if (index === -1) return false;
+
+    entities.splice(index, 1);
+    localStorage.setItem(entityName, JSON.stringify(entities));
+
+    return true;
   }
 }
