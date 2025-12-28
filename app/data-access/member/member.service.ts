@@ -1,12 +1,16 @@
 import { StorageService } from "../storage/storage.service";
 import { CreateMemberDto } from "./member.dto";
-import { Member } from "./member.entity";
+import { DEFAULT_MEMBERS, Member } from "./member.entity";
 
 /**
  * 회원 데이터의 비즈니스 로직 구현
  */
 export class MemberService {
-  constructor(private readonly storageService: StorageService) {}
+  constructor(private readonly storageService: StorageService) {
+    DEFAULT_MEMBERS.forEach((member) => {
+      this.storageService.createOne("members", member);
+    });
+  }
 
   createMember(member: CreateMemberDto): Member {
     const newMember = new Member();

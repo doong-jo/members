@@ -22,3 +22,24 @@ export class Member extends BaseEntity implements DefaultFieldSchema {
   // 추후 Custom Filed 기능이 추가되었을 때 dynamic하게 필드 추가 가능
   [key: string]: MemberDataValue;
 }
+
+export const DEFAULT_MEMBERS: Member[] = [
+  {
+    id: crypto.randomUUID(),
+    name: "John Doe",
+    address: "서울 강남구",
+    memo: "외국인",
+    createdAt: new Date("2024-10-02"),
+    job: "개발자",
+    marketingAgree: true,
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Foo Bar",
+    address: "서울 강남구",
+    memo: "한국인",
+    createdAt: new Date("2024-10-01"),
+    job: "PO",
+    marketingAgree: false,
+  },
+];
