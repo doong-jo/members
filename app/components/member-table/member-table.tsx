@@ -4,9 +4,6 @@ import { useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
 
-import { useSuspenseFields } from "@/app/data-access/field/use-fields";
-
-import { Row } from "../shared/table/entities/row.entity";
 import {
   Table,
   TableBody,
@@ -15,11 +12,12 @@ import {
   TableHeader,
   TableRow,
 } from "../shared/table/table";
+import { renderMemberValue } from "./member-table.helper";
 import { CreateMemberModal } from "./modals/create-member-modal";
 import { EditMemberModal } from "./modals/edit-member-modal";
+import { useSuspenseMemberTable } from "./use-member-table";
 
 interface MemberTableProps {
-  rows: Row[];
   isCreateMemberModalOpen: boolean;
   onCreateMemberModalOpen: (open: boolean) => void;
 }
@@ -28,13 +26,12 @@ interface MemberTableProps {
  * 회원 테이블 컴포넌트
  */
 export function MemberTable({
-  rows = [],
   isCreateMemberModalOpen,
   onCreateMemberModalOpen,
 }: MemberTableProps) {
   const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState<boolean>(false);
 
-  const { data: fields } = useSuspenseFields();
+  const { fields, membersByField } = useSuspenseMemberTable();
 
   return (
     <>
@@ -53,39 +50,39 @@ export function MemberTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            {/* map */}
-            <TableCell>
-              <Checkbox />
-            </TableCell>
-            <TableCell>John Doe</TableCell>
-            <TableCell>서울 강남구 </TableCell>
-            <TableCell>메모</TableCell>
-            <TableCell>2025-01-01</TableCell>
-            <TableCell>개발자</TableCell>
-            <TableCell>동의</TableCell>
-            <TableCell className="p-2">
-              <button type="button">
-                <MoreOutlined
-                  className="h-4 w-4"
-                  style={{
-                    color: "#000000A6",
-                  }}
-                ></MoreOutlined>
-              </button>
-            </TableCell>
-          </TableRow>
+          {membersByField.map((memberByField) => (
+            <>
+              <TableRow>
+                <TableCell>
+                  <Checkbox />
+                </TableCell>
+                {fields.map((field) => (
+                  <TableCell key={field.id} renderer={renderMemberValue}>
+                    {memberByField[field.key]}
+                  </TableCell>
+                ))}
+                <TableCell className="p-2">
+                  <button type="button">
+                    <MoreOutlined
+                      className="h-4 w-4"
+                      style={{
+                        color: "#000000A6",
+                      }}
+                    ></MoreOutlined>
+                  </button>
+                </TableCell>
+              </TableRow>
+            </>
+          ))}
         </TableBody>
       </Table>
       <CreateMemberModal
         open={isCreateMemberModalOpen}
         onOpenChange={(open) => onCreateMemberModalOpen(open)}
-        row={rows[0]}
       />
       <EditMemberModal
         open={isEditMemberModalOpen}
         onOpenChange={(open) => setIsEditMemberModalOpen(open)}
-        row={rows[0]}
       />
     </>
   );

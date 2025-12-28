@@ -67,10 +67,18 @@ const TableRow = function TableRow({
 const TableCell = function TableCell({
   children,
   className,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-}) {
+  renderer,
+}:
+  | {
+      children: React.ReactNode;
+      className?: string;
+      renderer?: never;
+    }
+  | {
+      children?: React.ReactNode | Date;
+      className?: string;
+      renderer: (value: React.ReactNode | Date) => React.ReactNode;
+    }) {
   return (
     <td
       className={cn(
@@ -78,7 +86,7 @@ const TableCell = function TableCell({
         className,
       )}
     >
-      {children}
+      {renderer ? renderer(children) : children}
     </td>
   );
 };
