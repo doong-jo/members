@@ -14,6 +14,11 @@ a[disabled] {
   cursor: not-allowed;
 }
 
+input:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
 body {
   color: black;
   background: var(--background);
