@@ -1,10 +1,10 @@
-import { BaseMember } from "./member.entity";
+import { Member } from "./member.entity";
 
-export interface CreateMemberDto extends Partial<BaseMember> {
+export interface CreateMemberDto extends Partial<Member> {
   [key: string]: string | number | boolean | Date | null | undefined;
 }
 
-export interface UpdateMemberDto extends Partial<BaseMember> {
+export interface UpdateMemberDto extends Partial<Member> {
   [key: string]: string | number | boolean | Date | null | undefined;
 }
 

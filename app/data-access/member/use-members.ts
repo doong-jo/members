@@ -1,26 +1,58 @@
-import { CreateMemberDto, DeleteMemberDto, GetListMembersDto, UpdateMemberDto } from "./member.dto";
+import { useMutation, useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query";
 
-export function useMember() {
-  const createMember = (member: CreateMemberDto) => {
-    return member;
-  };
+import { MemberController } from "./member.controller";
+import { Member } from "./member.entity";
 
-  const updateMember = (member: UpdateMemberDto) => {
-    return member;
-  };
+/**
+ * 모든 회원 조회
+ */
+export const useSuspenseAllMembers = (queryOptions?: UseSuspenseQueryOptions<Member[], Error>) => {
+  return useSuspenseQuery<Member[], Error>({
+    queryKey: ["allMembers"],
+    queryFn: async () => MemberController.getInstance().getAllMembers(),
+    ...queryOptions,
+  });
+};
 
-  const deleteMember = (member: DeleteMemberDto) => {
-    return member;
-  };
+/**
+ * 회원 조회
+ */
+export const useSuspenseMemberById = (
+  id: string,
+  queryOptions?: UseSuspenseQueryOptions<Member | null, Error>,
+) => {
+  return useSuspenseQuery<Member | null, Error>({
+    queryKey: ["memberById", id],
+    queryFn: async () => MemberController.getInstance().getMemberById(id) || null,
+    ...queryOptions,
+  });
+};
 
-  const getMembers = (member: GetListMembersDto) => {
-    return member;
-  };
+/**
+ * 회원 업데이트
+ */
+export const useUpdateMemberById = (
+  id: string,
+  member: Member,
+  queryOptions?: UseSuspenseQueryOptions<Member, Error>,
+) => {
+  return useMutation<Member, Error>({
+    mutationKey: ["updateMemberById", id],
+    mutationFn: async () => MemberController.getInstance().updateMember(member),
+    ...queryOptions,
+  });
+};
 
-  return {
-    createMember,
-    updateMember,
-    deleteMember,
-    getMembers,
-  };
-}
+/**
+ * 회원 삭제
+ */
+export const useDeleteMemberById = (
+  id: string,
+  queryOptions?: UseSuspenseQueryOptions<void, Error>,
+) => {
+  return useMutation<void, Error>({
+    mutationKey: ["deleteMemberById", id],
+    mutationFn: async () => MemberController.getInstance().deleteMemberById(id),
+    ...queryOptions,
+  });
+};
