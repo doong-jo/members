@@ -34,6 +34,8 @@ export class InMemoryService implements BaseStorage<BaseEntity> {
 
     Object.assign(entity, data);
 
+    this.data[entityName] = this.data[entityName].map((item) => (item.id === id ? entity : item));
+
     return entity;
   }
 
