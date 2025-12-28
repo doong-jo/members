@@ -1,3 +1,4 @@
+import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from "react";
 import { FilterFilled } from "@ant-design/icons";
 
 import { cn } from "@/app/style/tailwind-util";
@@ -18,17 +19,18 @@ const TableHeader = function TableHeader({
   return <thead className={cn("w-full", className)}>{children}</thead>;
 };
 
-const TableHead = function TableHead({
-  children,
-  className,
-  hiddenFilter,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-  hiddenFilter?: boolean;
-}) {
+const TableHead = forwardRef<
+  ComponentRef<"th">,
+  ComponentPropsWithoutRef<"th"> & {
+    hiddenFilter?: boolean;
+  }
+>(({ children, className, hiddenFilter, ...props }, ref) => {
   return (
-    <th className={cn("border-[#0000000F] bg-[#FAFAFA] py-2", className)}>
+    <th
+      ref={ref}
+      className={cn("cursor-pointer border-[#0000000F] bg-[#FAFAFA] py-2", className)}
+      {...props}
+    >
       <div className="flex flex-row items-center justify-between border-[#0000000F] px-2 [th:not(:first-child)_&]:border-r">
         <span className="text-sm font-semibold text-[#000000E0]">{children}</span>
         {!hiddenFilter && (
@@ -42,7 +44,8 @@ const TableHead = function TableHead({
       </div>
     </th>
   );
-};
+});
+TableHead.displayName = "TableHead";
 
 const TableBody = function TableBody({
   children,
