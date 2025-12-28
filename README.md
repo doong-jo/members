@@ -1,36 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Members
 
-## Getting Started
+## 목적
 
-First, run the development server:
+- 회원 목록 관리 시스템 구현
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 기능
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 회원 추가
+- 회원 수정
+- 회원 삭제
+- 회원 필터링
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 저장소 변경
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 기본적으로 in-memory 저장소를 사용하지만, 환경 변수를 통해 local-storage 저장소로 변경 가능
+- 환경 변수 설정 방법
+  - `.env.*`, `.env` 파일에 `NEXT_PUBLIC_STORAGE=local-storage` 또는 `in-memory` 설정
