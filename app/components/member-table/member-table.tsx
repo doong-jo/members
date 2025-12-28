@@ -2,9 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
+import { useQueryClient } from "@tanstack/react-query";
 import { Checkbox } from "antd";
 
 import { MemberDataValue } from "@/app/data-access/member/member.entity";
+import { useDeleteMemberById } from "@/app/data-access/member/use-members";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../shared/popover";
 import {
@@ -35,6 +37,8 @@ export function MemberTable({
   isCreateMemberModalOpen,
   onCreateMemberModalOpen,
 }: MemberTableProps) {
+  const queryClient = useQueryClient();
+
   const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState<{
     open: boolean;
     member: Record<string, MemberDataValue>;
@@ -44,6 +48,12 @@ export function MemberTable({
   });
 
   const { fields, membersByField } = useSuspenseMemberTable();
+
+  const { mutateAsync: deleteMemberById } = useDeleteMemberById({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["allMembers"] });
+    },
+  });
 
   // 필터 상태
   const [filters, setFilters] = useState<Record<string, Set<string>>>({});
@@ -116,7 +126,7 @@ export function MemberTable({
                         setIsEditMemberModalOpen({ open: true, member: memberByField });
                       }}
                       onDeleteClick={() => {
-                        // TODO: 삭제 진행 로직 추가
+                        deleteMemberById(memberByField["id"] as string);
                       }}
                     />
                   </PopoverContent>
