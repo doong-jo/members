@@ -1,6 +1,8 @@
 import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 
+import { cn } from "@/app/style/tailwind-util";
+
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
@@ -15,7 +17,7 @@ const PopoverContent = forwardRef<
       ref={ref}
       align={align}
       sideOffset={sideOffset}
-      className={className}
+      className={cn("relative z-50 rounded-[10px] bg-white", className)}
       {...props}
     />
   </PopoverPrimitive.Portal>
