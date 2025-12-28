@@ -21,20 +21,6 @@ export const useSuspenseAllMembers = (queryOptions?: UseSuspenseQueryOptions<Mem
 };
 
 /**
- * 회원 조회
- */
-export const useSuspenseMemberById = (
-  id: string,
-  queryOptions?: UseSuspenseQueryOptions<Member | null, Error>,
-) => {
-  return useSuspenseQuery<Member | null, Error>({
-    queryKey: ["memberById", id],
-    queryFn: async () => MemberController.getInstance().getMemberById(id) || null,
-    ...queryOptions,
-  });
-};
-
-/**
  * 회원 생성
  */
 export const useCreateMember = (
@@ -56,8 +42,12 @@ export const useUpdateMember = (
 ) => {
   return useMutation<Member, Error, UpdateMemberDto>({
     mutationKey: ["updateMember"],
-    mutationFn: async (member: UpdateMemberDto) =>
-      MemberController.getInstance().updateMember(member),
+    mutationFn: async (member: UpdateMemberDto) => {
+      if (!member.id) {
+        throw new Error("업데이트 시에는 id가 필요합니다.");
+      }
+      return MemberController.getInstance().updateMember(member.id, member);
+    },
     ...queryOptions,
   });
 };

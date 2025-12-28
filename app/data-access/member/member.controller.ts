@@ -34,18 +34,17 @@ export class MemberController {
   }
 
   getAllMembers(): Member[] {
-    return this.memberService.getAllMembers();
+    const result = this.memberService.getAllMembers();
+
+    return result;
   }
 
   getMemberById(id: string): Member | null {
     return this.memberService.getMemberById(id);
   }
 
-  updateMember(member: UpdateMemberDto): Member {
-    const newMember = new Member();
-    Object.assign(newMember, member);
-
-    return this.memberService.updateMember(newMember);
+  updateMember(id: string, member: UpdateMemberDto): Member {
+    return this.memberService.updateMember(id, member);
   }
 
   deleteMemberById(id: string): void {
