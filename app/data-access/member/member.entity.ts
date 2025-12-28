@@ -27,7 +27,7 @@ export const DEFAULT_MEMBERS: Member[] = [
   {
     id: crypto.randomUUID(),
     name: "John Doe",
-    address: "서울 강남구",
+    address: "서울 서초구",
     memo: "외국인",
     createdAt: new Date("2024-10-02"),
     job: "개발자",
