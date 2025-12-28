@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { MoreOutlined } from "@ant-design/icons";
-import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Checkbox } from "antd";
 
+import { Popover, PopoverContent, PopoverTrigger } from "../shared/popover";
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "../shared/table/table";
+import { Filter } from "./filter";
 import { renderMemberValue } from "./member-table.helper";
 import { CreateMemberModal } from "./modals/create-member-modal";
 import { EditMemberModal } from "./modals/edit-member-modal";
@@ -45,7 +46,16 @@ export function MemberTable({
               <Checkbox />
             </TableHead>
             {fields.map((field) => (
-              <TableHead key={field.id}>{field.label}</TableHead>
+              <Popover key={field.id}>
+                <PopoverTrigger asChild>
+                  <TableHead>{field.label}</TableHead>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <Filter
+                    values={membersByField.map((memberByField) => memberByField[field.key])}
+                  />
+                </PopoverContent>
+              </Popover>
             ))}
             {/* 셀의 작업과 칸 맞추기 위해 추가 */}
             <TableHead className="w-0" hiddenFilter />
